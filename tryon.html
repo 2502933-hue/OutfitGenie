@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outfit Genie – AI Fitting Room</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="tryon-page">
+
+    <header class="header">
+        <a href="index.html" class="logo">Outfit Genie</a>
+        <nav class="nav">
+            <a href="index.html">Home</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </nav>
+    </header>
+
+    <div class="tryon-container">
+
+        <!-- LEFT PANEL -->
+        <div class="left-panel">
+            <div class="sec-label">👕 Shirts</div>
+            <div class="clothes-grid">
+                <div class="c-card" data-type="shirt" data-name="Navy Shirt">
+                    <img src="images/image 2 (1).png" alt="Navy Shirt">
+                    <div class="c-card-name">Navy</div>
+                </div>
+                <div class="c-card" data-type="shirt" data-name="Black Shirt">
+                    <img src="images/image 2 (2).png" alt="Black Shirt">
+                    <div class="c-card-name">Black</div>
+                </div>
+                <div class="c-card" data-type="shirt" data-name="Sky Blue Shirt">
+                    <img src="images/image 2 (3).png" alt="Sky Blue Shirt">
+                    <div class="c-card-name">Sky Blue</div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+            <div class="sec-label">👖 Pants</div>
+            <div class="clothes-grid">
+                <div class="c-card" data-type="pants" data-name="Khaki Pants">
+                    <img src="images/image 2 (4).png" alt="Khaki Pants">
+                    <div class="c-card-name">Khaki</div>
+                </div>
+                <div class="c-card" data-type="pants" data-name="Black Pants">
+                    <img src="images/image 2 (5).png" alt="Black Pants">
+                    <div class="c-card-name">Black</div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+            <div class="sec-label">📿 Necklaces</div>
+            <div class="clothes-grid">
+                <div class="c-card" data-type="necklace" data-name="Silver Necklace">
+                    <img src="images/image 2 (6).png" alt="Silver Necklace">
+                    <div class="c-card-name">Silver</div>
+                </div>
+                <div class="c-card" data-type="necklace" data-name="Pendant Necklace">
+                    <img src="images/image 2 (7).png" alt="Pendant Necklace">
+                    <div class="c-card-name">Pendant</div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+            <div class="sec-label">🕶️ Glasses</div>
+            <div class="clothes-grid">
+                <div class="c-card" data-type="glasses" data-name="Eyeglasses">
+                    <img src="images/image 2 (8).png" alt="Eyeglasses">
+                    <div class="c-card-name">Frames</div>
+                </div>
+                <div class="c-card" data-type="glasses" data-name="Black Sunglasses">
+                    <img src="images/image 2 (9).png" alt="Black Sunglasses">
+                    <div class="c-card-name">Black Sun</div>
+                </div>
+                <div class="c-card" data-type="glasses" data-name="Round Sunglasses">
+                    <img src="images/image 2 (10).png" alt="Round Sunglasses">
+                    <div class="c-card-name">Round Sun</div>
+                </div>
+                <div class="c-card" data-type="glasses" data-name="Aviator">
+                    <img src="images/image 2 (11).png" alt="Aviator">
+                    <div class="c-card-name">Aviator</div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+            <div class="sel-box">
+                <div class="sel-row"><span>Shirt</span><span id="sel-shirt">None</span></div>
+                <div class="sel-row"><span>Pants</span><span id="sel-pants">None</span></div>
+                <div class="sel-row"><span>Neck</span><span id="sel-necklace">None</span></div>
+                <div class="sel-row"><span>Eyes</span><span id="sel-glasses">None</span></div>
+                <button class="clear-btn" id="clear-btn">✕ Clear All</button>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="right-panel">
+            <div class="top-row">
+                <div class="panel-title">AI Fitting Room</div>
+                <button class="change-btn" id="change-btn">Change Photo</button>
+            </div>
+
+            <div class="upload-area" id="upload-area">
+                <span class="u-icon">📸</span>
+                <p><strong>Click here to upload your photo</strong><br>Use a clear full-body front-facing photo</p>
+                <input type="file" id="file-input" accept="image/jpeg,image/png,image/jpg,image/webp">
+            </div>
+
+            <div class="canvas-wrap" id="canvas-wrap">
+                <canvas id="main-canvas"></canvas>
+                <div class="drag-hint">💡 Drag to move items</div>
+            </div>
+
+            <div class="ai-box" id="ai-box">
+                <div class="ai-icon">✦</div>
+                <div>
+                    <div class="ai-label">AI Fitting Engine</div>
+                    <div class="ai-text" id="ai-text">
+                        <div class="dots"><span></span><span></span><span></span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Adjustment Panel -->
+            <div class="adjustment-panel" id="adjustment-panel">
+                <div class="adj-title" id="adj-item-name">Adjust Item</div>
+
+                <div class="blend-group" id="blend-group" style="display:none;">
+                    <label class="blend-label">Remove Base Shirt 👕</label>
+                    <input type="range" id="base-opacity-slider" class="blend-slider" min="0" max="100" value="0">
+                    <div class="blend-value" id="blend-value">Hidden</div>
+                </div>
+
+                <div class="adj-group">
+                    <label class="adj-label">Vertical Position</label>
+                    <div class="btn-group">
+                        <button class="adj-btn" id="btn-up">▲</button>
+                        <button class="adj-btn" id="btn-down">▼</button>
+                    </div>
+                    <div class="value-display" id="offset-y-display">Y: 0</div>
+                </div>
+
+                <div class="adj-group">
+                    <label class="adj-label">Horizontal Position</label>
+                    <div class="btn-group">
+                        <button class="adj-btn" id="btn-left">◀</button>
+                        <button class="adj-btn" id="btn-right">▶</button>
+                    </div>
+                    <div class="value-display" id="offset-x-display">X: 0</div>
+                </div>
+
+                <div class="adj-group">
+                    <label class="adj-label">Size</label>
+                    <div class="size-group">
+                        <button class="size-btn" id="btn-decrease">− Decrease</button>
+                        <button class="size-btn" id="btn-increase">+ Increase</button>
+                    </div>
+                    <div class="value-display" id="scale-display">Scale: 100%</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="footer">&copy; 2026 Outfit Genie. All rights reserved.</footer>
+
+    <script>
+        var userPhoto = null;
+        var userBase64 = null;
+        var userMime = null;
+        var bodyMap = null;
+        var hideBaseShirt = false;
+
+        var selected = {
+            shirt: null,
+            pants: null,
+            necklace: null,
+            glasses: null
+        };
+        var activeCard = {
+            shirt: null,
+            pants: null,
+            necklace: null,
+            glasses: null
+        };
+        var adjustments = {
+            shirt: {
+                offsetX: 0,
+                offsetY: 0,
+                scale: 1
+            },
+            pants: {
+                offsetX: 0,
+                offsetY: 0,
+                scale: 1
+            },
+            necklace: {
+                offsetX: 0,
+                offsetY: 0,
+                scale: 1
+            },
+            glasses: {
+                offsetX: 0,
+                offsetY: 0,
+                scale: 1
+            }
+        };
+
+        var currentEditingType = null;
+        var isDragging = false;
+        var dragStart = {
+            x: 0,
+            y: 0
+        };
+
+        var canvas = document.getElementById('main-canvas');
+        var ctx = canvas.getContext('2d');
+        var uploadArea = document.getElementById('upload-area');
+        var fileInput = document.getElementById('file-input');
+
+        // ── Upload ──────────────────────────────────────────
+        uploadArea.addEventListener('click', function() {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) loadPhoto(this.files[0]);
+        });
+
+        uploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('dragover');
+        });
+        uploadArea.addEventListener('dragleave', function() {
+            this.classList.remove('dragover');
+        });
+        uploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+            var f = e.dataTransfer.files[0];
+            if (f && f.type.startsWith('image/')) loadPhoto(f);
+        });
+
+        function loadPhoto(file) {
+            userMime = file.type || 'image/jpeg';
+            var reader = new FileReader();
+            reader.onload = function(ev) {
+                var dataURL = ev.target.result;
+                userBase64 = dataURL.split(',')[1];
+                var img = new Image();
+                img.onload = function() {
+                    userPhoto = img;
+                    canvas.width = img.naturalWidth;
+                    canvas.height = img.naturalHeight;
+                    uploadArea.style.display = 'none';
+                    document.getElementById('canvas-wrap').classList.add('show');
+                    document.getElementById('change-btn').style.display = 'inline-block';
+                    hideBaseShirt = false;
+                    ctx.drawImage(userPhoto, 0, 0);
+                    detectBody();
+                };
+                img.src = dataURL;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // ── AI Body Detection ───────────────────────────────
+        async function detectBody() {
+            setAI('<div class="dots"><span></span><span></span><span></span></div>&nbsp; AI scanning body keypoints...');
+            bodyMap = null;
+
+            var prompt =
+                'You are a precise body landmark detection AI for a virtual clothing try-on system.\n\n' +
+                'Carefully look at this photo. Detect the exact positions of body landmarks.\n' +
+                'All values are PERCENTAGES of image size:\n' +
+                '  x values: 0 = left edge, 100 = right edge\n' +
+                '  y values: 0 = top edge, 100 = bottom edge\n\n' +
+                'EYES (for placing glasses):\n' +
+                '  eye_y  = vertical center of the eyes (% from top)\n' +
+                '  eye_x  = horizontal midpoint between both eyes (% from left)\n' +
+                '  eye_w  = width from outer left eye to outer right eye (% of image width)\n\n' +
+                'NECK BASE (for placing necklace):\n' +
+                '  neck_y = bottom of neck / top of chest (% from top)\n' +
+                '  neck_x = horizontal center of neck (% from left)\n' +
+                '  neck_w = shoulder width where necklace would rest (% of image width)\n\n' +
+                'SHOULDERS (for top of shirt):\n' +
+                '  shoulder_y = vertical level of shoulders (% from top)\n' +
+                '  shoulder_x = left shoulder outer edge (% from left)\n' +
+                '  shoulder_w = total width left shoulder to right shoulder (% of image width)\n\n' +
+                'WAIST (bottom of shirt):\n' +
+                '  waist_y = vertical level of waist (% from top)\n' +
+                '  waist_x = horizontal center of waist (% from left)\n' +
+                '  waist_w = width at waist (% of image width)\n\n' +
+                'HIPS (top of pants):\n' +
+                '  hip_y  = vertical level of hip / trouser waistband (% from top)\n' +
+                '  hip_x  = horizontal center of hips (% from left)\n' +
+                '  hip_w  = width at hip level (% of image width)\n\n' +
+                'Return ONLY valid JSON. No markdown. No backticks. No explanation:\n' +
+                '{"eye_y":12,"eye_x":50,"eye_w":16,"neck_y":20,"neck_x":50,"neck_w":38,"shoulder_y":24,"shoulder_x":24,"shoulder_w":52,"waist_y":52,"waist_x":50,"waist_w":44,"hip_y":56,"hip_x":50,"hip_w":48}';
+
+            try {
+                var res = await fetch('https://api.anthropic.com/v1/messages', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: 'claude-sonnet-4-20250514',
+                        max_tokens: 300,
+                        messages: [{
+                            role: 'user',
+                            content: [{
+                                type: 'image',
+                                source: {
+                                    type: 'base64',
+                                    media_type: userMime,
+                                    data: userBase64
+                                }
+                            }, {
+                                type: 'text',
+                                text: prompt
+                            }]
+                        }]
+                    })
+                });
+                var data = await res.json();
+                var raw = data.content.map(function(b) {
+                    return b.text || '';
+                }).join('').trim();
+                var clean = raw.replace(/```json|```/g, '').trim();
+                bodyMap = JSON.parse(clean);
+                setAI('✅ Body scanned! Click any clothing item to try it on.');
+            } catch (err) {
+                console.error(err);
+                bodyMap = {
+                    eye_y: 12,
+                    eye_x: 50,
+                    eye_w: 16,
+                    neck_y: 20,
+                    neck_x: 50,
+                    neck_w: 38,
+                    shoulder_y: 24,
+                    shoulder_x: 24,
+                    shoulder_w: 52,
+                    waist_y: 52,
+                    waist_x: 50,
+                    waist_w: 44,
+                    hip_y: 56,
+                    hip_x: 50,
+                    hip_w: 48
+                };
+                setAI('Body scanned with defaults. Click any item to try it on.');
+            }
+        }
+
+        // ── Clothing Cards ──────────────────────────────────
+        document.querySelectorAll('.c-card').forEach(function(card) {
+            card.addEventListener('click', function() {
+                if (!userPhoto) {
+                    alert('Please upload your photo first!');
+                    return;
+                }
+                var type = card.dataset.type;
+                var name = card.dataset.name;
+                var src = card.querySelector('img').src;
+                if (activeCard[type]) activeCard[type].classList.remove('active');
+                card.classList.add('active');
+                activeCard[type] = card;
+                document.getElementById('sel-' + type).textContent = name;
+                currentEditingType = type;
+                showAdjPanel(type, name);
+                var clothImg = new Image();
+                clothImg.crossOrigin = 'anonymous';
+                clothImg.onload = function() {
+                    selected[type] = {
+                        name: name,
+                        img: clothImg
+                    };
+                    if (!bodyMap) {
+                        detectBody();
+                    } else {
+                        redrawAll();
+                        if (selected.shirt && selected.pants) setTimeout(runStyleTip, 800);
+                    }
+                };
+                clothImg.src = src;
+            });
+        });
+
+        // ── Adjustment Panel ────────────────────────────────
+        function showAdjPanel(type, name) {
+            document.getElementById('adj-item-name').textContent = name;
+            updateAdjDisplay(type);
+            document.getElementById('blend-group').style.display = (type === 'shirt') ? 'block' : 'none';
+            document.getElementById('adjustment-panel').classList.add('show');
+        }
+
+        function updateAdjDisplay(type) {
+            var a = adjustments[type];
+            document.getElementById('offset-x-display').textContent = 'X: ' + Math.round(a.offsetX);
+            document.getElementById('offset-y-display').textContent = 'Y: ' + Math.round(a.offsetY);
+            document.getElementById('scale-display').textContent = 'Scale: ' + Math.round(a.scale * 100) + '%';
+        }
+
+        document.getElementById('btn-up').addEventListener('click', function() {
+            if (!currentEditingType) return;
+            adjustments[currentEditingType].offsetY -= 5;
+            updateAdjDisplay(currentEditingType);
+            redrawAll();
+        });
+        document.getElementById('btn-down').addEventListener('click', function() {
+            if (!currentEditingType) return;
+            adjustments[currentEditingType].offsetY += 5;
+            updateAdjDisplay(currentEditingType);
+            redrawAll();
+        });
+        document.getElementById('btn-left').addEventListener('click', function() {
+            if (!currentEditingType) return;
+            adjustments[currentEditingType].offsetX -= 5;
+            updateAdjDisplay(currentEditingType);
+            redrawAll();
+        });
+        document.getElementById('btn-right').addEventListener('click', function() {
+            if (!currentEditingType) return;
+            adjustments[currentEditingType].offsetX += 5;
+            updateAdjDisplay(currentEditingType);
+            redrawAll();
+        });
+        document.getElementById('btn-increase').addEventListener('click', function() {
+            if (!currentEditingType) return;
+            adjustments[currentEditingType].scale = Math.min(1.8, adjustments[currentEditingType].scale + 0.05);
+            updateAdjDisplay(currentEditingType);
+            redrawAll();
+        });
+        document.getElementById('btn-decrease').addEventListener('click', function() {
+            if (!currentEditingType) return;
+            adjustments[currentEditingType].scale = Math.max(0.5, adjustments[currentEditingType].scale - 0.05);
+            updateAdjDisplay(currentEditingType);
+            redrawAll();
+        });
+
+        document.getElementById('base-opacity-slider').addEventListener('input', function() {
+            hideBaseShirt = (this.value > 50);
+            document.getElementById('blend-value').textContent = hideBaseShirt ? 'Hidden' : 'Visible';
+            redrawAll();
+        });
+
+        // ── Drag to move on desktop ─────────────────────────
+        canvas.addEventListener('mousedown', function(e) {
+            if (!currentEditingType || !selected[currentEditingType]) return;
+            isDragging = true;
+            dragStart = {
+                x: e.clientX,
+                y: e.clientY
+            };
+            document.getElementById('canvas-wrap').classList.add('dragging');
+        });
+        document.addEventListener('mousemove', function(e) {
+            if (!isDragging || !currentEditingType) return;
+            adjustments[currentEditingType].offsetX += e.clientX - dragStart.x;
+            adjustments[currentEditingType].offsetY += e.clientY - dragStart.y;
+            dragStart = {
+                x: e.clientX,
+                y: e.clientY
+            };
+            updateAdjDisplay(currentEditingType);
+            redrawAll();
+        });
+        document.addEventListener('mouseup', function() {
+            isDragging = false;
+            document.getElementById('canvas-wrap').classList.remove('dragging');
+        });
+
+        // ── Touch drag for mobile ───────────────────────────
+        canvas.addEventListener('touchstart', function(e) {
+            if (!currentEditingType || !selected[currentEditingType]) return;
+            isDragging = true;
+            var t = e.touches[0];
+            dragStart = {
+                x: t.clientX,
+                y: t.clientY
+            };
+        }, {
+            passive: true
+        });
+        canvas.addEventListener('touchmove', function(e) {
+            if (!isDragging || !currentEditingType) return;
+            e.preventDefault();
+            var t = e.touches[0];
+            adjustments[currentEditingType].offsetX += t.clientX - dragStart.x;
+            adjustments[currentEditingType].offsetY += t.clientY - dragStart.y;
+            dragStart = {
+                x: t.clientX,
+                y: t.clientY
+            };
+            updateAdjDisplay(currentEditingType);
+            redrawAll();
+        }, {
+            passive: false
+        });
+        canvas.addEventListener('touchend', function() {
+            isDragging = false;
+        });
+
+        // ── Calculate position ──────────────────────────────
+        function calcPos(type) {
+            if (!bodyMap || !selected[type] || !selected[type].img) return null;
+            var W = canvas.width,
+                H = canvas.height;
+            var b = bodyMap;
+            var img = selected[type].img;
+            var ratio = img.naturalHeight / img.naturalWidth;
+            var adj = adjustments[type];
+            var x, y, w, h;
+
+            if (type === 'shirt') {
+                w = (b.shoulder_w / 100) * W * 1.08;
+                h = w * ratio;
+                x = (b.shoulder_x / 100) * W - (w - (b.shoulder_w / 100) * W) / 2;
+                y = (b.shoulder_y / 100) * H - h * 0.03;
+                var torsoH = ((b.hip_y - b.shoulder_y) / 100) * H;
+                if (h > torsoH * 1.25) {
+                    h = torsoH * 1.2;
+                    w = h / ratio;
+                    x = (b.waist_x / 100) * W - w / 2;
+                    y = (b.shoulder_y / 100) * H;
+                }
+            } else if (type === 'pants') {
+                w = (b.hip_w / 100) * W * 1.08;
+                h = w * ratio;
+                x = (b.hip_x / 100) * W - w / 2;
+                y = (b.hip_y / 100) * H - h * 0.03;
+            } else if (type === 'necklace') {
+                w = (b.neck_w / 100) * W * 0.85;
+                h = w * ratio;
+                x = (b.neck_x / 100) * W - w / 2;
+                y = (b.neck_y / 100) * H;
+            } else if (type === 'glasses') {
+                w = (b.eye_w / 100) * W * 1.35;
+                h = w * ratio;
+                x = (b.eye_x / 100) * W - w / 2;
+                y = (b.eye_y / 100) * H - h / 2;
+            }
+
+            w = w * adj.scale;
+            h = h * adj.scale;
+            x = x + adj.offsetX;
+            y = y + adj.offsetY;
+            return {
+                x: x,
+                y: y,
+                w: w,
+                h: h
+            };
+        }
+
+        // ── Redraw canvas ───────────────────────────────────
+        function redrawAll() {
+            if (!userPhoto) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(userPhoto, 0, 0, canvas.width, canvas.height);
+
+            if (selected.shirt && hideBaseShirt && bodyMap) {
+                var sp = calcPos('shirt');
+                if (sp) {
+                    ctx.fillStyle = 'rgba(15,12,41,0.95)';
+                    ctx.fillRect(sp.x - sp.w * 0.2, sp.y - sp.h * 0.15, sp.w * 1.4, sp.h * 1.3);
+                }
+            }
+
+            ['pants', 'shirt', 'necklace', 'glasses'].forEach(function(type) {
+                if (!selected[type] || !selected[type].img) return;
+                var p = calcPos(type);
+                if (!p) return;
+                ctx.drawImage(selected[type].img, p.x, p.y, p.w, p.h);
+            });
+        }
+
+        // ── AI Style Tip ────────────────────────────────────
+        async function runStyleTip() {
+            try {
+                var res = await fetch('https://api.anthropic.com/v1/messages', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: 'claude-sonnet-4-20250514',
+                        max_tokens: 160,
+                        messages: [{
+                            role: 'user',
+                            content: [{
+                                type: 'image',
+                                source: {
+                                    type: 'base64',
+                                    media_type: userMime,
+                                    data: userBase64
+                                }
+                            }, {
+                                type: 'text',
+                                text: 'You are a fashion stylist. In 2 warm short sentences: (1) how does this shirt and pants combination suit this person, (2) what colors would suit their skin tone best. Be encouraging. No bullet points.'
+                            }]
+                        }]
+                    })
+                });
+                var data = await res.json();
+                var text = data.content.map(function(b) {
+                    return b.text || '';
+                }).join('');
+                setAI('✦ Style Tip: ' + text);
+            } catch (e) {}
+        }
+
+        function setAI(html) {
+            document.getElementById('ai-box').classList.add('show');
+            document.getElementById('ai-text').innerHTML = html;
+        }
+
+        // ── Clear All ───────────────────────────────────────
+        document.getElementById('clear-btn').addEventListener('click', function() {
+            selected = {
+                shirt: null,
+                pants: null,
+                necklace: null,
+                glasses: null
+            };
+            activeCard = {
+                shirt: null,
+                pants: null,
+                necklace: null,
+                glasses: null
+            };
+            adjustments = {
+                shirt: {
+                    offsetX: 0,
+                    offsetY: 0,
+                    scale: 1
+                },
+                pants: {
+                    offsetX: 0,
+                    offsetY: 0,
+                    scale: 1
+                },
+                necklace: {
+                    offsetX: 0,
+                    offsetY: 0,
+                    scale: 1
+                },
+                glasses: {
+                    offsetX: 0,
+                    offsetY: 0,
+                    scale: 1
+                }
+            };
+            hideBaseShirt = false;
+            currentEditingType = null;
+            document.getElementById('adjustment-panel').classList.remove('show');
+            document.querySelectorAll('.c-card').forEach(function(c) {
+                c.classList.remove('active');
+            });
+            ['shirt', 'pants', 'necklace', 'glasses'].forEach(function(t) {
+                document.getElementById('sel-' + t).textContent = 'None';
+            });
+            document.getElementById('ai-box').classList.remove('show');
+            if (userPhoto) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(userPhoto, 0, 0);
+            }
+        });
+
+        // ── Change Photo ────────────────────────────────────
+        document.getElementById('change-btn').addEventListener('click', function() {
+            userPhoto = null;
+            userBase64 = null;
+            bodyMap = null;
+            selected = {
+                shirt: null,
+                pants: null,
+                necklace: null,
+                glasses: null
+            };
+            activeCard = {
+                shirt: null,
+                pants: null,
+                necklace: null,
+                glasses: null
+            };
+            adjustments = {
+                shirt: {
+                    offsetX: 0,
+                    offsetY: 0,
+                    scale: 1
+                },
+                pants: {
+                    offsetX: 0,
+                    offsetY: 0,
+                    scale: 1
+                },
+                necklace: {
+                    offsetX: 0,
+                    offsetY: 0,
+                    scale: 1
+                },
+                glasses: {
+                    offsetX: 0,
+                    offsetY: 0,
+                    scale: 1
+                }
+            };
+            hideBaseShirt = false;
+            currentEditingType = null;
+            document.getElementById('adjustment-panel').classList.remove('show');
+            document.querySelectorAll('.c-card').forEach(function(c) {
+                c.classList.remove('active');
+            });
+            ['shirt', 'pants', 'necklace', 'glasses'].forEach(function(t) {
+                document.getElementById('sel-' + t).textContent = 'None';
+            });
+            document.getElementById('ai-box').classList.remove('show');
+            document.getElementById('canvas-wrap').classList.remove('show');
+            uploadArea.style.display = '';
+            document.getElementById('change-btn').style.display = 'none';
+            fileInput.value = '';
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+    </script>
+
+</body>
+
+</html>
